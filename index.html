@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEKPBOY - แพลตฟอร์มจัดการและวิเคราะห์ข้อมูลฟุตบอลระดับโลก</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0b132b; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .card-bg { background-color: #1c2541; border: 1px solid #334155; }
+        .pitch-spot { transition: all 0.4s ease-in-out; }
+        .active-spot { background-color: #f59e0b !important; border-color: #ffffff !important; box-shadow: 0 0 20px #f59e0b; transform: scale(1.25); z-index: 30; color: #000000 !important; font-weight: 900; }
+    </style>
+</head>
+<body class="p-3 md:p-6">
+
+    <header class="max-w-7xl mx-auto mb-6 flex flex-col md:flex-row justify-between items-center border-b border-slate-700 pb-4">
+        <div class="text-center md:text-left mb-4 md:mb-0">
+            <h1 class="text-4xl font-extrabold tracking-wider text-cyan-400">DEKPBOY GLOBAL ENGINE</h1>
+            <p class="text-gray-400 text-xs mt-1">ระบบจำลองสถิติ ค่าพลังการ์ด และจัดตำแหน่งนักเตะระดับโลกเชิงยุทธศาสตร์</p>
+        </div>
+        <div class="flex items-center gap-3 bg-slate-900 px-4 py-2 rounded-xl border border-slate-800">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="font-bold text-xs tracking-wide text-gray-300">GLOBAL DATABASE LIVE</span>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <div class="lg:col-span-4 space-y-5">
+            
+            <section class="card-bg p-5 rounded-2xl shadow-xl">
+                <h2 class="text-base font-bold mb-3 text-cyan-300 flex items-center gap-2">
+                    🔍 ตัวกรองนักเตะระดับโลก
+                </h2>
+                <div class="mb-4">
+                    <label class="block text-gray-400 text-[11px] mb-1.5">เลือกนักเตะชั้นนำทั่วโลก:</label>
+                    <select id="global-player-select" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white text-sm focus:ring-2 focus:ring-cyan-400 outline-none font-semibold" onchange="syncGlobalEngine()">
+                        
+                        <optgroup label="🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League (อังกฤษ)">
+                            <option value="bruno" selected>Bruno Fernandes (AM - Man United)</option>
+                            <option value="haaland">Erling Haaland (ST - Man City)</option>
+                            <option value="salah">Mohamed Salah (RW - Liverpool)</option>
+                            <option value="silvestre">Mikaël Silvestre (LB - Man United Legend)</option>
+                            <option value="onana">André Onana (GK - Man United)</option>
+                        </optgroup>
+
+                        <optgroup label="🇪🇸 La Liga (สเปน)">
+                            <option value="mbappe">Kylian Mbappé (ST - Real Madrid)</option>
+                            <option value="vinicius">Vinícius Júnior (LW - Real Madrid)</option>
+                            <option value="bellingham">Jude Bellingham (AM - Real Madrid)</option>
+                            <option value="yamal">Lamine Yamal (RW - Barcelona)</option>
+                        </optgroup>
+
+                        <optgroup label="🇮🇹 Serie A (อิตาลี)">
+                            <option value="lautaro">Lautaro Martínez (ST - Inter Milan)</option>
+                            <option value="leao">Rafael Leão (LW - AC Milan)</option>
+                        </optgroup>
+
+                        <optgroup label="🇩🇪 Bundesliga (เยอรมนี)">
+                            <option value="kane">Harry Kane (ST - Bayern Munich)</option>
+                            <option value="wirtz">Florian Wirtz (AM - Leverkusen)</option>
+                        </optgroup>
+                        
+                    </select>
+                </div>
+                <p class="text-[11px] text-gray-400 italic">*ระบบจะเปลี่ยนรูปโปรไฟล์ทางการ สถิติสมจริง และพิกัดตำแหน่งบนสนามทันทีที่เลือก</p>
+            </section>
+
+            <section class="card-bg p-5 rounded-2xl shadow-xl">
+                <h2 class="text-base font-bold mb-3 text-purple-400 flex items-center gap-2">
+                    👔 ทีมงานบริหารแท็กติก (Staff & Coach)
+                </h2>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <div class="w-10 h-10 rounded-lg bg-slate-800 border border-purple-500/40 flex items-center justify-center text-lg">📋</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-white">Rúben Amorim</h4>
+                            <p class="text-[10px] text-purple-400 font-medium">ผู้จัดการทีมหัวหน้าผู้ฝึกสอน (Head Coach)</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-[11px]">
+                        <div class="bg-slate-900/40 p-2 rounded-lg border border-slate-800">
+                            <span class="text-gray-400 block">แท็กติกหลัก:</span>
+                            <strong class="text-white">3-4-2-1 ระบบรุกกังหัน</strong>
+                        </div>
+                        <div class="bg-slate-900/40 p-2 rounded-lg border border-slate-800">
+                            <span class="text-gray-400 block">สไตล์วิเคราะห์:</span>
+                            <strong class="text-amber-400">Data-Driven</strong>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card-bg p-5 rounded-2xl shadow-xl">
+                <h3 class="text-xs font-bold mb-2 text-amber-400">💰 ตลาดจำลองซื้อขายสากล & กฎ FFP</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[11px] text-gray-400">งบประมาณสโมสรคงเหลือ:</span>
+                        <p class="text-lg font-black text-cyan-400" id="budget-display">£120,000,000</p>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+                        <div id="ffp-progress-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 80%"></div>
+                    </div>
+                    <div class="flex justify-between items-center text-[10px]">
+                        <span class="text-gray-400">สถานะทางบัญชี:</span>
+                        <span id="ffp-status-label" class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-bold">บัญชีสมดุล (ปลอดภัย)</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <button onclick="triggerBudget('buy')" class="bg-rose-600 hover:bg-rose-500 text-[11px] py-1.5 rounded-lg font-medium transition shadow">ดีลซื้อตัว (-£40M)</button>
+                        <button onclick="triggerBudget('sell')" class="bg-emerald-600 hover:bg-emerald-500 text-[11px] py-1.5 rounded-lg font-medium transition shadow">ดีลขายตัว (+£35M)</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="lg:col-span-4 space-y-5">
+            <section class="card-bg p-5 rounded-2xl shadow-xl flex flex-col justify-between min-h-[550px]">
+                <div class="w-full text-center">
+                    <h2 class="text-base font-bold mb-4 text-cyan-300 text-left">👤 การ์ดข้อมูลโปรไฟล์ทางการ</h2>
+                    
+                    <div class="w-32 h-32 mx-auto mb-3 bg-slate-950 rounded-full border-4 border-cyan-500 overflow-hidden shadow-2xl flex items-center justify-center relative">
+                        <img id="global-player-img" src="" alt="Player face" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <h3 id="global-player-name" class="text-xl font-black text-white tracking-wide">Loading Name...</h3>
+                    <p id="global-player-pos-title" class="text-amber-400 text-[10px] font-black bg-amber-500/10 px-3 py-0.5 rounded-full inline-block mt-1">Loading...</p>
+                </div>
+
+                <div class="space-y-3 mt-4 border-t border-slate-700/50 pt-4" id="global-stats-container">
+                    </div>
+
+                <div class="grid grid-cols-2 gap-2 text-center text-[11px] mt-4 pt-3 border-t border-slate-800">
+                    <div class="bg-slate-900/60 p-2 rounded-lg"><span class="text-gray-400 block text-[10px]">ประเทศ/สัญชาติ</span><strong id="global-player-nat" class="text-white text-xs">...</strong></div>
+                    <div class="bg-slate-900/60 p-2 rounded-lg"><span class="text-gray-400 block text-[10px]">อายุผู้เล่น</span><strong id="global-player-age" class="text-white text-xs">...</strong></div>
+                </div>
+            </section>
+        </div>
+
+        <div class="lg:col-span-4">
+            <section class="card-bg p-5 rounded-2xl shadow-xl flex flex-col h-full justify-between">
+                <div>
+                    <h2 class="text-base font-bold mb-1 text-emerald-400 flex items-center gap-2">
+                        🟢 แผนผังพิกัดตำแหน่ง (Visual Pitch Position)
+                    </h2>
+                    <p class="text-[11px] text-gray-400 mb-3">เมื่อเลือกนักเตะ ข้อมูลพิกัดจะวิ่งไปเปิดไฟส่องสว่างที่ตำแหน่งหลักของนักเตะคนนั้นบนสนามจริง</p>
+                </div>
+
+                <div class="w-full aspect-[3/4] bg-emerald-800 rounded-xl p-3 relative border border-white/20 overflow-hidden shadow-inner bg-gradient-to-b from-emerald-800 to-green-900">
+                    <div class="absolute inset-3 border border-white/10 pointer-events-none"></div>
+                    <div class="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-12 border-b border-x border-white/10 pointer-events-none"></div>
+                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 w-28 h-12 border-t border-x border-white/10 pointer-events-none"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full border border-white/10 pointer-events-none"></div>
+                    <div class="absolute top-1/2 left-3 right-3 h-px bg-white/10 pointer-events-none"></div>
+
+                    <div id="pos-ST" class="pitch-spot absolute top-6 left-1/2 -translate-x-1/2 bg-slate-950/90 border border-slate-700 text-[10px] font-bold text-gray-400 px-1.5 py-0.5 rounded shadow">ST</div>
+                    <div id="pos-LW" class="pitch-spot absolute top-12 left-5 bg-slate-950/90 border border-slate-700 text-[10px] font-bold text-gray-400 px-1.5 py-0.5 rounded shadow">LW</div>
+                    <div id="pos-RW" class="pitch-spot absolute top-12 right-5 bg-slate-950/90 border border-slate-700 text-[10px] font-bold text-gray-400 px-1.5 py-0.5 rounded shadow">RW</div>
+
+                    <div id="pos-AM" class="pitch-spot absolute top-1/3 left-1/2 -translate-x-1/2 bg-slate-950/90 border border-slate-700 text-[10px] font-bold text-gray-400 px-1.5 py-0.5 rounded shadow">AM</div>
+                    <div id="pos-CM" class="pitch-spot absolute top-1/2 left-1/3 bg-slate-950/90 border border-slate-700 text-[10px] font-bold text-gray-400 px-1.5 py-0.5 rounded shadow">CM</div>
+                    <div id="pos-DM" class="pitch-spot absolute top-1/2 right-1/3 bg-slate-950/90 border border-slate-700 text-[10px] font-bold text-gray-400 px-1.5 py-0.5 rounded shadow">DM</div>
+
+                    <div id="pos-LB" class="pitch-spot absolute bottom-16 left-4 bg-slate-950/90 border border-slate-700 text-[10px] font-bold text-gray-400 px-1.5 py-0.5 rounded shadow">LB</div>
+                    <div id="pos-CBL" class="pitch-spot absolute bottom-16 left-1/3 bg-slate-950/90 border border-slate-700 text-[10px] font-bold text-gray-400 px-1.5 py-0.5 rounded shadow">CB</div>
+                    <div id="pos-CBR" class="pitch-spot absolute bottom-16 right-1/3 bg-slate-950/90 border border-slate-700 text-[10px] font-bold text-gray-400 px-1.5 py-0.5 rounded shadow">CB</div>
+                    <div id="pos-RB" class="pitch-spot absolute bottom-16 right-4 bg-slate-950/90 border border-slate-700 text-[10px] font-bold text-gray-400 px-1.5 py-0.5 rounded shadow">RB</div>
+
+                    <div id="pos-GK" class="pitch-spot absolute bottom-4 left-1/2 -translate-x-1/2 bg-slate-950/90 border border-slate-700 text-[10px] font-bold text-gray-400 px-1.5 py-0.5 rounded shadow">GK</div>
+                </div>
+
+                <div class="mt-3 bg-slate-900/60 p-2.5 rounded-xl border border-slate-800 text-[10px] text-gray-400">
+                    ℹ️ **คำแนะนำระบบพิกัด:** ฟังก์ชันจัดเรียงตามผังสนามจริงจะทำงานควบคู่กับสถิติและตำแหน่งธรรมชาติของนักเตะแต่ละรายโดยอัตโนมัติ
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <script>
+        // ฐานข้อมูลรูปโปรไฟล์และสถิติจริงของนักเตะชั้นนำทั่วโลก
+        const globalPlayersDatabase = {
+            bruno: {
+                name: "Bruno Fernandes", position: "AM (กองกลางตัวรุก)", nationality: "Portugal", age: "31", targetSpot: "pos-AM",
+                img: "https://images.images.fotmob.com/image_resources/playerimages/517682.png",
+                stats: { "การส่งบอล (PAS)": 93, "สร้างสรรค์เกม (CRE)": 95, "ยิงประตู (SHO)": 84, "เกมรับ (DEF)": 69, "ความเร็ว (PAC)": 72 }
+            },
+            haaland: {
+                name: "Erling Haaland", position: "ST (กองหน้าตัวเป้า)", nationality: "Norway", age: "25", targetSpot: "pos-ST",
+                img: "https://images.images.fotmob.com/image_resources/playerimages/826074.png",
+                stats: { "การส่งบอล (PAS)": 66, "สร้างสรรค์เกม (CRE)": 68, "ยิงประตู (SHO)": 96, "เกมรับ (DEF)": 40, "ความเร็ว (PAC)": 94 }
+            },
+            salah: {
+                name: "Mohamed Salah", position: "RW (ปีกขวาชาร์ปชูตเตอร์)", nationality: "Egypt", age: "33", targetSpot: "pos-RW",
+                img: "https://images.images.fotmob.com/image_resources/playerimages/292462.png",
+                stats: { "การส่งบอล (PAS)": 83, "สร้างสรรค์เกม (CRE)": 87, "ยิงประตู (SHO)": 91, "เกมรับ (DEF)": 45, "ความเร็ว (PAC)": 89 }
+            },
+            silvestre: {
+                name: "Mikaël Silvestre", position: "LB (กองหลังแบ็กซ้าย)", nationality: "France", age: "48 (Legend)", targetSpot: "pos-LB",
+                img: "https://images.images.fotmob.com/image_resources/playerimages/3103.png",
+                stats: { "การส่งบอล (PAS)": 74, "สร้างสรรค์เกม (CRE)": 68, "ยิงประตู (SHO)": 55, "เกมรับ (DEF)": 86, "ความเร็ว (PAC)": 81 }
+            },
+            onana: {
+                name: "André Onana", position: "GK (ผู้รักษาประตูพรีเมียร์ลีก)", nationality: "Cameroon", age: "30", targetSpot: "pos-GK",
+                img: "https://images.images.fotmob.com/image_resources/playerimages/569145.png",
+                stats: { "การเซฟ (DIV)": 86, "การใช้เท้าออกบอล (PAS)": 89, "การยืนตำแหน่ง (POS)": 84, "ปฏิกิริยา (REF)": 88, "ความเร็ว (PAC)": 52 }
+            },
+            mbappe: {
+                name: "Kylian Mbappé", position: "ST (กองหน้าความเร็วสูง)", nationality: "France", age: "27", targetSpot: "pos-ST",
+                img: "https://images.images.fotmob.com/image_resources/playerimages/654676.png",
+                stats: { "การส่งบอล (PAS)": 80, "สร้างสรรค์เกม (CRE)": 84, "ยิงประตู (SHO)": 92, "เกมรับ (DEF)": 36, "ความเร็ว (PAC)": 97 }
+            },
+            vinicius: {
+                name: "Vinícius Júnior", position: "LW (ปีกซ้ายสายเลื้อย)", nationality: "Brazil", age: "25", targetSpot: "pos-LW",
+                img: "https://images.images.fotmob.com/image_resources/playerimages/845025.png",
+                stats: { "การส่งบอล (PAS)": 79, "สร้างสรรค์เกม (CRE)": 86, "ยิงประตู (SHO)": 85, "เกมรับ (DEF)": 39, "ความเร็ว (PAC)": 95 }
+            },
+            bellingham: {
+                name: "Jude Bellingham", position: "AM (กองกลางบ็อกซ์ทูบ็อกซ์)", nationality: "England", age: "22", targetSpot: "pos-AM",
+                img: "https://images.images.fotmob.com/image_resources/playerimages/1071158.png",
+                stats: { "การส่งบอล (PAS)": 84, "สร้างสรรค์เกม (CRE)": 85, "ยิงประตู (SHO)": 86, "เกมรับ (DEF)": 79, "ความเร็ว (PAC)": 81 }
+            },
+            yamal: {
+                name: "Lamine Yamal", position: "RW (ดาวรุ่งปีกขวาอัจฉริยะ)", nationality: "Spain", age: "18", targetSpot: "pos-RW",
+                img: "https://images.images.fotmob.com/image_resources/playerimages/1460394.png",
+                stats: { "การส่งบอล (PAS)": 82, "สร้างสรรค์เกม (CRE)": 90, "ยิงประตู (SHO)": 80, "เกมรับ (DEF)": 44, "ความเร็ว (PAC)": 85 }
+            },
+            lautaro: {
+                name: "Lautaro Martínez", position: "ST (กองหน้าล่าตาข่าย)", nationality: "Argentina", age: "28", targetSpot: "pos-ST",
+                img: "https://images.images.fotmob.com/image_resources/playerimages/737035.png",
+                stats: { "การส่งบอล (PAS)": 72, "สร้างสรรค์เกม (CRE)": 74, "ยิงประตู (SHO)": 89, "เกมรับ (DEF)": 48, "ความเร็ว (PAC)": 83 }
+            },
+            leao: {
+                name: "Rafael Leão", position: "LW (ตัวรุกกัลโช่)", nationality: "Portugal", age: "26", targetSpot: "pos-LW",
+                img: "https://images.images.fotmob.com/image_resources/playerimages/873400.png",
+                stats: { "การส่งบอล (PAS)": 76, "สร้างสรรค์เกม (CRE)": 81, "ยิงประตู (SHO)": 81, "เกมรับ (DEF)": 35, "ความเร็ว (PAC)": 93 }
+            },
+            kane: {
+                name: "Harry Kane", position: "ST (หน้าเป้าจอมคม)", nationality: "England", age: "32", targetSpot: "pos-ST",
+                img: "https://images.images.fotmob.com/image_resources/playerimages/208316.png",
+                stats: { "การส่งบอล (PAS)": 84, "สร้างสรรค์เกม (CRE)": 85, "ยิงประตู (SHO)": 95, "เกมรับ (DEF)": 47, "ความเร็ว (PAC)": 69 }
+            },
+            wirtz: {
+                name: "Florian Wirtz", position: "AM (จอมทัพบุนเดสลีกา)", nationality: "Germany", age: "23", targetSpot: "pos-AM",
+                img: "https://images.images.fotmob.com/image_resources/playerimages/1110595.png",
+                stats: { "การส่งบอล (PAS)": 88, "สร้างสรรค์เกม (CRE)": 93, "ยิงประตู (SHO)": 79, "เกมรับ (DEF)": 52, "ความเร็ว (PAC)": 82 }
+            }
+        };
+
+        // ฟังก์ชันสลับเปลี่ยนข้อมูลและเปิดสปอตไลท์ตำแหน่งในสนาม
+        function syncGlobalEngine() {
+            const selectElement = document.getElementById("global-player-select");
+            const key = selectElement.value;
+            const player = globalPlayersDatabase[key];
+
+            // 1. ใส่รูปและข้อมูลโปรไฟล์จริง
+            document.getElementById("global-player-img").src = player.img;
+            document.getElementById("global-player-name").innerText = player.name;
+            document.getElementById("global-player-pos-title").innerText = player.position;
+            document.getElementById("global-player-nat").innerText = player.nationality;
+            document.getElementById("global-player-age").innerText = player.age + " ปี";
+
+            // 2. ล้างข้อมูลเก่าแล้ววาดแถบพลังงานจริงเข้าไปใหม่
+            const statsContainer = document.getElementById("global-stats-container");
+            statsContainer.innerHTML = "";
+            for (const [title, score] of Object.entries(player.stats)) {
+                let barColor = "bg-cyan-500";
+                if (score >= 90) barColor = "bg-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.5)]";
+                else if (score < 70) barColor = "bg-slate-500";
+
+                statsContainer.innerHTML += `
+                    <div>
+                        <div class="flex justify-between text-[11px] mb-0.5">
+                            <span class="text-gray-300 font-medium">${title}</span>
+                            <span class="font-bold text-cyan-400">${score}</span>
+                        </div>
+                        <div class="w-full bg-slate-900 rounded-full h-2 border border-slate-800">
+                            <div class="${barColor} h-full rounded-full transition-all duration-700" style="width: ${score}%"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 3. ระบบย้ายพิกัดไฟส่องสว่างบนแผนผังสนามฟุตบอล
+            document.querySelectorAll('.pitch-spot').forEach(spot => {
+                spot.className = "pitch-spot absolute bg-slate-950/90 border border-slate-700 text-[10px] font-bold text-gray-400 px-1.5 py-0.5 rounded shadow";
+            });
+            const activePitchSpot = document.getElementById(player.targetSpot);
+            if (activePitchSpot) {
+                activePitchSpot.className += " active-spot";
+            }
+        }
+
+        // ระบบควบคุมจำลอง FFP สโมสร
+        let activeBudget = 120000000;
+        function triggerBudget(mode) {
+            const display = document.getElementById("budget-display");
+            const bar = document.getElementById("ffp-progress-bar");
+            const statusLabel = document.getElementById("ffp-status-label");
+
+            if (mode === 'buy') activeBudget -= 40000000;
+            else if (mode === 'sell') activeBudget += 35000000;
+
+            display.innerText = "£" + activeBudget.toLocaleString();
+
+            if (activeBudget < 50000000) {
+                bar.style.width = "30%";
+                bar.className = "bg-rose-600 h-full rounded-full transition-all duration-500";
+                statusLabel.innerText = "วิกฤตการเงิน (ระวังโดนหักแต้ม FFP!)";
+                statusLabel.className = "bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded font-bold";
+            } else {
+                bar.style.width = "80%";
+                bar.className = "bg-emerald-500 h-full rounded-full transition-all duration-500";
+                statusLabel.innerText = "บัญชีสมดุล (ปลอดภัย)";
+                statusLabel.className = "bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-bold";
+            }
+        }
+
+        // รันฟังก์ชันทันทีเมื่อเว็บโหลดเสร็จ
+        window.onload = syncGlobalEngine;
+    </script>
+</body>
+</html>
