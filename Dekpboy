@@ -1,0 +1,84 @@
+'use client';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+// ข้อมูลหลัก: 10 วิชา พร้อมหน่วยย่อย
+const curriculumData = {
+  "คณิตศาสตร์": { color: "#D4AF37", chapters: [{ title: "เซต", sub: ["การเขียนเซต", "สับเซต", "Power Set", "แผนภาพเวนน์"] }, { title: "ตรรกศาสตร์", sub: ["ประพจน์", "ตัวบ่งปริมาณ"] }] },
+  "ฟิสิกส์": { color: "#4A90E2", chapters: [{ title: "กลศาสตร์", sub: ["การเคลื่อนที่แนวตรง", "แรงและกฎการเคลื่อนที่"] }] },
+  "อังกฤษ": { color: "#FF6B6B", chapters: [{ title: "Grammar", sub: ["Tense", "Subject-Verb Agreement"] }] },
+  // ... เพิ่มอีก 7 วิชาตามโครงสร้างนี้
+};
+
+export default function DekpboyApp() {
+  const [quote, setQuote] = useState("Success is the sum of small efforts.");
+  const [selectedSubject, setSelectedSubject] = useState(null);
+
+  // คำคมเปลี่ยนทุก 10 นาที
+  useEffect(() => {
+    const quotes = ["วินัยสร้างปาฏิหาริย์", "ศัลยแพทย์ผู้ยิ่งใหญ่เริ่มจากการเรียนรู้", "ความพยายามไม่เคยทรยศใคร"];
+    const interval = setInterval(() => {
+      setQuote(quotes[Math.floor(Math.random() * quotes.length)]);
+    }, 600000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[#050505] text-white p-6 font-sans">
+      {/* Header & Quote */}
+      <header className="mb-10 text-center">
+        <h1 className="text-4xl font-serif text-[#D4AF37] tracking-widest">DEKPBOY</h1>
+        <motion.div 
+          key={quote}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          className="mt-4 p-4 border-l-4 border-[#D4AF37] bg-[#111] italic text-gray-300"
+        >
+          {quote}
+        </motion.div>
+      </header>
+
+      {/* สรุปไทม์ไลน์ */}
+      <section className="grid grid-cols-2 gap-4 mb-10">
+        <div className="p-5 rounded-3xl bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] border border-[#D4AF37]/30">
+          <h3 className="text-[#D4AF37]">ตารางวันนี้ 🗓️</h3>
+          <p className="text-sm">05:00-06:55: วิชาคำนวณ (คณิต/ฟิสิกส์)</p>
+          <p className="text-sm">16:45-22:00: วิชาความจำ (อังกฤษ/อื่นๆ)</p>
+        </div>
+      </section>
+
+      {/* Visual Roadmap (ต้นไม้เถาวัลย์) */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        {Object.keys(curriculumData).map((sub) => (
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            key={sub} 
+            className="h-32 flex flex-col items-center justify-center bg-[#111] rounded-2xl cursor-pointer border border-white/10"
+            onClick={() => setSelectedSubject(sub)}
+          >
+            <span className="text-4xl mb-2">🌿</span>
+            <p className="text-xs">{sub}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* รายละเอียดบทเรียน (Drill-down) */}
+      <AnimatePresence>
+        {selectedSubject && (
+          <motion.div 
+            initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }}
+            className="fixed inset-0 bg-[#050505]/90 z-50 p-10 overflow-y-auto"
+          >
+            <button onClick={() => setSelectedSubject(null)} className="text-[#D4AF37]">ปิด ✕</button>
+            <h2 className="text-3xl mt-5">{selectedSubject}</h2>
+            {curriculumData[selectedSubject].chapters.map((ch, i) => (
+              <div key={i} className="mt-6 border-b border-white/10 pb-4">
+                <h4 className="font-bold text-lg">{ch.title}</h4>
+                {ch.sub.map((s, j) => <p key={j} className="text-gray-400 text-sm">✓ {s}</p>)}
+              </div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
